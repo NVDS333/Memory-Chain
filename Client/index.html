@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemoryChain - Eternal Stories from a Dying Planet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'memory-blue': '#1e3a8a',
+                        'memory-light': '#3b82f6',
+                        'memory-dark': '#1e40af',
+                        'memory-accent': '#60a5fa'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .smooth-transition {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .slide-up {
+            animation: slideUp 0.5s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .story-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(30, 58, 138, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-memory-light rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">M</span>
+                    </div>
+                    <span class="text-xl font-bold text-white">MemoryChain</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <button onclick="showPage('home')" class="nav-btn text-white hover:text-memory-accent smooth-transition">Home</button>
+                    <button onclick="showPage('stories')" class="nav-btn text-white hover:text-memory-accent smooth-transition">Stories</button>
+                    <button onclick="showPage('donate')" class="nav-btn text-white hover:text-memory-accent smooth-transition">Donate</button>
+                    <button onclick="showPage('submit')" class="nav-btn bg-memory-light hover:bg-memory-dark px-4 py-2 rounded-lg smooth-transition">Share Story</button>
+                </div>
+                <button class="md:hidden text-white" onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed top-16 left-0 w-full bg-memory-blue z-40 hidden">
+        <div class="px-4 py-4 space-y-4">
+            <button onclick="showPage('home'); toggleMobileMenu()" class="block w-full text-left text-white hover:text-memory-accent">Home</button>
+            <button onclick="showPage('stories'); toggleMobileMenu()" class="block w-full text-left text-white hover:text-memory-accent">Stories</button>
+            <button onclick="showPage('donate'); toggleMobileMenu()" class="block w-full text-left text-white hover:text-memory-accent">Donate</button>
+            <button onclick="showPage('submit'); toggleMobileMenu()" class="block w-full text-left bg-memory-light hover:bg-memory-dark px-4 py-2 rounded-lg">Share Story</button>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div id="homePage" class="page-content">
+        <section class="gradient-bg min-h-screen flex items-center justify-center pt-16">
+            <div class="max-w-4xl mx-auto text-center px-4 fade-in">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 text-white">
+                    MemoryChain
+                </h1>
+                <p class="text-xl md:text-2xl mb-4 text-blue-100">
+                    Eternal Stories from a Dying Planet
+                </p>
+                <p class="text-lg mb-8 text-blue-200 max-w-2xl mx-auto">
+                    Preserving the voices, stories, and memories of those affected by climate disasters. 
+                    Every story matters. Every memory lives forever on the blockchain.
+                </p>
+                <div class="space-x-4">
+                    <button onclick="showPage('stories')" class="bg-white text-memory-blue px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 smooth-transition">
+                        View Stories
+                    </button>
+                    <button onclick="showPage('submit')" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-memory-blue smooth-transition">
+                        Share Your Story
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 bg-gray-800">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center mb-16 text-white">Our Mission</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center p-6 rounded-lg bg-gray-700 hover:bg-gray-600 smooth-transition">
+                        <div class="w-16 h-16 bg-memory-light rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3 text-white">Preserve Stories</h3>
+                        <p class="text-gray-300">Every climate victim's story is permanently preserved on the blockchain, ensuring their memory lives forever.</p>
+                    </div>
+                    <div class="text-center p-6 rounded-lg bg-gray-700 hover:bg-gray-600 smooth-transition">
+                        <div class="w-16 h-16 bg-memory-light rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3 text-white">Raise Awareness</h3>
+                        <p class="text-gray-300">Transform personal grief into collective awareness about the human cost of climate change.</p>
+                    </div>
+                    <div class="text-center p-6 rounded-lg bg-gray-700 hover:bg-gray-600 smooth-transition">
+                        <div class="w-16 h-16 bg-memory-light rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-3 text-white">Support Communities</h3>
+                        <p class="text-gray-300">Give marginalized voices a global platform and support affected communities through donations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Stories Page -->
+    <div id="storiesPage" class="page-content hidden">
+        <section class="pt-24 pb-12 bg-gray-900">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="text-center mb-12 fade-in">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">Memorial Stories</h1>
+                    <p class="text-xl text-gray-300">Voices that will never be forgotten</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="storiesGrid">
+                    <!-- Sample Stories -->
+                    <div class="story-card bg-gray-800 rounded-lg p-6 border border-gray-700">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-memory-light rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">M</span>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="font-semibold text-white">Daniel Wong</h3>
+                                <p class="text-sm text-gray-400">2020 • Wildfire</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">"When the 2020 wildfire hit New South Wales, the smoke was so thick it turned the sky orange for days. The forest where my grandfather taught me to fish was gone overnight. It hurt to see it like that, but it also pushed me to join the local volunteer firefighters. I wanted to help make sure others didn’t have to feel that same loss."</p>
+                        <div class="flex justify-between items-center text-sm text-gray-400">
+                            <span>2 days ago</span>
+                            <span>❤️ 127</span>
+                        </div>
+                    </div>
+
+                    <div class="story-card bg-gray-800 rounded-lg p-6 border border-gray-700">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-memory-light rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">J</span>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="font-semibold text-white">Maria Santos</h3>
+                                <p class="text-sm text-gray-400">2013 • Typhoon</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">"When Typhoon Haiyan hit Tacloban in 2013, the wind sounded like it was tearing the world apart. I held on to my sister’s hand the whole night, afraid to let go. We lost our home, but walking out into the sunlight the next day with her still beside me… that felt like the biggest blessing."</p>
+                        <div class="flex justify-between items-center text-sm text-gray-400">
+                            <span>5 days ago</span>
+                            <span>❤️ 89</span>
+                        </div>
+                    </div>
+
+                    <div class="story-card bg-gray-800 rounded-lg p-6 border border-gray-700">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-memory-light rounded-full flex items-center justify-center">
+                                <span class="text-white font-bold">A</span>
+                            </div>
+                            <div class="ml-3">
+                                <h3 class="font-semibold text-white">Ravi Menon</h3>
+                                <p class="text-sm text-gray-400">2018 • Landslide</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">"During the 2018 landslide in Cameron Highlands, the roads were cut off for two days. My little shop became the only place with a generator, so people came just to charge their phones. We ended up sharing tea, swapping stories, and realising how much we’d taken simple things like light and company for granted."</p>
+                        <div class="flex justify-between items-center text-sm text-gray-400">
+                            <span>1 week ago</span>
+                            <span>❤️ 203</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-12">
+                    <button onclick="showPage('submit')" class="bg-memory-light hover:bg-memory-dark px-8 py-3 rounded-lg font-semibold smooth-transition">
+                        Share Your Story
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Submit Story Page -->
+    <div id="submitPage" class="page-content hidden">
+        <section class="pt-24 pb-12 bg-gray-900 min-h-screen">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="text-center mb-12 fade-in">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">Share Your Story</h1>
+                    <p class="text-xl text-gray-300">Your memory will live forever on the blockchain</p>
+                </div>
+
+                <div class="bg-gray-800 rounded-lg p-8 border border-gray-700">
+                    <form id="storyForm" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Your Name</label>
+                                <input type="text" id="authorName" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent" placeholder="Enter your name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Location</label>
+                                <input type="text" id="location" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent" placeholder="City, Country">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Climate Event</label>
+                            <select id="climateEvent" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent">
+                                <option value="">Select event type</option>
+                                <option value="hurricane">Hurricane/Typhoon</option>
+                                <option value="flood">Flooding</option>
+                                <option value="wildfire">Wildfire</option>
+                                <option value="drought">Drought</option>
+                                <option value="heatwave">Extreme Heat</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Your Story</label>
+                            <textarea id="storyText" rows="6" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent" placeholder="Share your memory, loss, or experience. Every word matters."></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Upload Media (Optional)</label>
+                            <div class="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center hover:border-memory-light smooth-transition">
+                                <input type="file" id="mediaUpload" accept="image/*,video/*" class="hidden" onchange="handleFileUpload(this)">
+                                <button type="button" onclick="document.getElementById('mediaUpload').click()" class="text-memory-light hover:text-memory-accent">
+                                    <svg class="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    </svg>
+                                    Click to upload photos or videos
+                                </button>
+                                <p class="text-sm text-gray-400 mt-2">PNG, JPG, MP4 up to 10MB</p>
+                            </div>
+                            <div id="uploadPreview" class="mt-4 hidden">
+                                <div class="bg-gray-700 rounded-lg p-4">
+                                    <div class="flex items-center justify-between">
+                                        <span id="fileName" class="text-white"></span>
+                                        <button type="button" onclick="removeFile()" class="text-red-400 hover:text-red-300">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="consent" class="w-4 h-4 text-memory-light bg-gray-700 border-gray-600 rounded focus:ring-memory-light">
+                            <label for="consent" class="text-sm text-gray-300">I consent to having my story preserved permanently on the blockchain</label>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="bg-memory-light hover:bg-memory-dark px-8 py-3 rounded-lg font-semibold smooth-transition disabled:opacity-50 disabled:cursor-not-allowed">
+                                Preserve My Story Forever
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Donate Page -->
+    <div id="donatePage" class="page-content hidden">
+        <section class="pt-24 pb-12 bg-gray-900 min-h-screen">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="text-center mb-12 fade-in">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">Support Climate Victims</h1>
+                    <p class="text-xl text-gray-300">Help communities rebuild and remember</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Donation Form -->
+                    <div class="bg-gray-800 rounded-lg p-8 border border-gray-700">
+                        <h2 class="text-2xl font-bold mb-6 text-white">Make a Donation</h2>
+                        <form id="donationForm" class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Donation Amount</label>
+                                <div class="grid grid-cols-3 gap-3 mb-4">
+                                    <button type="button" onclick="setAmount(25)" class="amount-btn bg-gray-700 hover:bg-memory-light text-white py-2 px-4 rounded-lg smooth-transition">$25</button>
+                                    <button type="button" onclick="setAmount(50)" class="amount-btn bg-gray-700 hover:bg-memory-light text-white py-2 px-4 rounded-lg smooth-transition">$50</button>
+                                    <button type="button" onclick="setAmount(100)" class="amount-btn bg-gray-700 hover:bg-memory-light text-white py-2 px-4 rounded-lg smooth-transition">$100</button>
+                                </div>
+                                <div class="relative">
+                                    <span class="absolute left-3 top-3 text-gray-400">$</span>
+                                    <input type="number" id="donationAmount" class="w-full pl-8 pr-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent" placeholder="Enter custom amount">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Donation Purpose</label>
+                                <select id="donationPurpose" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent">
+                                    <option value="general">General Support</option>
+                                    <option value="emergency">Emergency Relief</option>
+                                    <option value="rebuild">Community Rebuilding</option>
+                                    <option value="memorial">Memorial Maintenance</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Your Name (Optional)</label>
+                                <input type="text" id="donorName" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent" placeholder="Anonymous">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Message (Optional)</label>
+                                <textarea id="donationMessage" rows="3" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent" placeholder="Leave a message of support"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full bg-memory-light hover:bg-memory-dark py-3 rounded-lg font-semibold smooth-transition">
+                                Proceed to Payment
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Impact Stats -->
+                    <div class="space-y-6">
+                        <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                            <h3 class="text-xl font-bold mb-4 text-white">Your Impact</h3>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Stories Preserved</span>
+                                    <span class="text-memory-light font-bold">1,247</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Families Supported</span>
+                                    <span class="text-memory-light font-bold">892</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Communities Reached</span>
+                                    <span class="text-memory-light font-bold">156</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-300">Total Raised</span>
+                                    <span class="text-memory-light font-bold">$2.4M</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                            <h3 class="text-xl font-bold mb-4 text-white">Recent Donations</h3>
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-white font-medium">Anonymous</p>
+                                        <p class="text-sm text-gray-400">Emergency Relief</p>
+                                    </div>
+                                    <span class="text-memory-light font-bold">$100</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-white font-medium">Sarah Chen</p>
+                                        <p class="text-sm text-gray-400">Memorial Maintenance</p>
+                                    </div>
+                                    <span class="text-memory-light font-bold">$50</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="text-white font-medium">Climate Warriors</p>
+                                        <p class="text-sm text-gray-400">Community Rebuilding</p>
+                                    </div>
+                                    <span class="text-memory-light font-bold">$500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Transaction Page -->
+    <div id="transactionPage" class="page-content hidden">
+        <section class="pt-24 pb-12 bg-gray-900 min-h-screen">
+            <div class="max-w-2xl mx-auto px-4">
+                <div class="text-center mb-8 fade-in">
+                    <h1 class="text-4xl font-bold mb-4 text-white">Complete Your Donation</h1>
+                    <p class="text-xl text-gray-300">Secure blockchain transaction</p>
+                </div>
+
+                <div class="bg-gray-800 rounded-lg p-8 border border-gray-700">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold mb-4 text-white">Transaction Summary</h2>
+                        <div class="bg-gray-700 rounded-lg p-6 space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">Amount:</span>
+                                <span class="text-white font-bold" id="transactionAmount">$0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">Purpose:</span>
+                                <span class="text-white" id="transactionPurpose">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-300">Network Fee:</span>
+                                <span class="text-white">$2.50</span>
+                            </div>
+                            <hr class="border-gray-600">
+                            <div class="flex justify-between text-lg font-bold">
+                                <span class="text-white">Total:</span>
+                                <span class="text-memory-light" id="transactionTotal">$0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <h3 class="text-xl font-bold mb-4 text-white">Payment Method</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="selectPayment('crypto')" class="payment-method bg-gray-700 hover:bg-memory-light border-2 border-gray-600 rounded-lg p-4 text-center smooth-transition">
+                                <div class="text-2xl mb-2">₿</div>
+                                <div class="text-white font-medium">Cryptocurrency</div>
+                            </button>
+                            <button onclick="selectPayment('card')" class="payment-method bg-gray-700 hover:bg-memory-light border-2 border-gray-600 rounded-lg p-4 text-center smooth-transition">
+                                <div class="text-2xl mb-2">💳</div>
+                                <div class="text-white font-medium">Credit Card</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="cryptoPayment" class="payment-section hidden mb-8">
+                        <h4 class="text-lg font-bold mb-4 text-white">Cryptocurrency Payment</h4>
+                        <div class="bg-gray-700 rounded-lg p-6">
+                            <div class="text-center mb-4">
+                                <div class="w-32 h-32 bg-white rounded-lg mx-auto mb-4 flex items-center justify-center">
+                                    <div class="text-xs text-gray-800">QR Code</div>
+                                </div>
+                                <p class="text-sm text-gray-300">Scan QR code or copy wallet address</p>
+                            </div>
+                            <div class="bg-gray-800 rounded p-3 mb-4">
+                                <p class="text-xs text-gray-400 mb-1">Wallet Address:</p>
+                                <p class="text-white font-mono text-sm break-all">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</p>
+                            </div>
+                            <button onclick="copyAddress()" class="w-full bg-memory-light hover:bg-memory-dark py-2 rounded-lg smooth-transition">
+                                Copy Address
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="cardPayment" class="payment-section hidden mb-8">
+                        <h4 class="text-lg font-bold mb-4 text-white">Card Payment</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-300 mb-2">Card Number</label>
+                                <input type="text" placeholder="1234 5678 9012 3456" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">Expiry Date</label>
+                                    <input type="text" placeholder="MM/YY" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-300 mb-2">CVV</label>
+                                    <input type="text" placeholder="123" class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-memory-light focus:border-transparent">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <button onclick="showPage('donate')" class="flex-1 bg-gray-700 hover:bg-gray-600 py-3 rounded-lg font-semibold smooth-transition">
+                            Back
+                        </button>
+                        <button onclick="processTransaction()" class="flex-1 bg-memory-light hover:bg-memory-dark py-3 rounded-lg font-semibold smooth-transition">
+                            Complete Transaction
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-lg p-8 max-w-md mx-4 text-center slide-up">
+            <div class="w-16 h-16 bg-green-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 text-white">Success!</h3>
+            <p class="text-gray-300 mb-6" id="successMessage">Your story has been preserved forever on the blockchain.</p>
+            <button onclick="closeModal()" class="bg-memory-light hover:bg-memory-dark px-6 py-2 rounded-lg smooth-transition">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let currentPage = 'home';
+        let selectedPaymentMethod = null;
+        let donationData = {};
+
+        // Page navigation
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('hidden');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId + 'Page').classList.remove('hidden');
+            
+            // Add fade-in animation
+            setTimeout(() => {
+                document.getElementById(pageId + 'Page').classList.add('fade-in');
+            }, 50);
+            
+            currentPage = pageId;
+            
+            // Update nav active state
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-memory-accent');
+            });
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // File upload handling
+        function handleFileUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                document.getElementById('fileName').textContent = file.name;
+                document.getElementById('uploadPreview').classList.remove('hidden');
+            }
+        }
+
+        function removeFile() {
+            document.getElementById('mediaUpload').value = '';
+            document.getElementById('uploadPreview').classList.add('hidden');
+        }
+
+        // Story form submission
+        document.getElementById('storyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('authorName').value,
+                location: document.getElementById('location').value,
+                event: document.getElementById('climateEvent').value,
+                story: document.getElementById('storyText').value,
+                consent: document.getElementById('consent').checked
+            };
+            
+            if (!formData.name || !formData.story || !formData.consent) {
+                alert('Please fill in all required fields and give consent.');
+                return;
+            }
+            
+            // Simulate blockchain submission
+            setTimeout(() => {
+                showSuccessModal('Your story has been preserved forever on the blockchain. Thank you for sharing your memory.');
+                
+                // Add story to grid (simulation)
+                addStoryToGrid(formData);
+                
+                // Reset form
+                document.getElementById('storyForm').reset();
+                document.getElementById('uploadPreview').classList.add('hidden');
+            }, 2000);
+        });
+
+        // Add story to stories grid
+        function addStoryToGrid(storyData) {
+            const storiesGrid = document.getElementById('storiesGrid');
+            const storyCard = document.createElement('div');
+            storyCard.className = 'story-card bg-gray-800 rounded-lg p-6 border border-gray-700';
+            storyCard.innerHTML = `
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 bg-memory-light rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold">${storyData.name.charAt(0).toUpperCase()}</span>
+                    </div>
+                    <div class="ml-3">
+                        <h3 class="font-semibold text-white">${storyData.name}</h3>
+                        <p class="text-sm text-gray-400">${storyData.location} • ${storyData.event}</p>
+                    </div>
+                </div>
+                <p class="text-gray-300 mb-4">"${storyData.story}"</p>
+                <div class="flex justify-between items-center text-sm text-gray-400">
+                    <span>Just now</span>
+                    <span>❤️ 1</span>
+                </div>
+            `;
+            storiesGrid.insertBefore(storyCard, storiesGrid.firstChild);
+        }
+
+        // Donation amount selection
+        function setAmount(amount) {
+            document.getElementById('donationAmount').value = amount;
+            
+            // Update button states
+            document.querySelectorAll('.amount-btn').forEach(btn => {
+                btn.classList.remove('bg-memory-light');
+                btn.classList.add('bg-gray-700');
+            });
+            event.target.classList.remove('bg-gray-700');
+            event.target.classList.add('bg-memory-light');
+        }
+
+        // Donation form submission
+        document.getElementById('donationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const amount = parseFloat(document.getElementById('donationAmount').value);
+            const purpose = document.getElementById('donationPurpose').value;
+            const name = document.getElementById('donorName').value || 'Anonymous';
+            const message = document.getElementById('donationMessage').value;
+            
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid donation amount.');
+                return;
+            }
+            
+            // Store donation data
+            donationData = { amount, purpose, name, message };
+            
+            // Update transaction page
+            document.getElementById('transactionAmount').textContent = `$${amount}`;
+            document.getElementById('transactionPurpose').textContent = purpose.charAt(0).toUpperCase() + purpose.slice(1);
+            document.getElementById('transactionTotal').textContent = `$${(amount + 2.50).toFixed(2)}`;
+            
+            // Navigate to transaction page
+            showPage('transaction');
+        });
+
+        // Payment method selection
+        function selectPayment(method) {
+            selectedPaymentMethod = method;
+            
+            // Update button states
+            document.querySelectorAll('.payment-method').forEach(btn => {
+                btn.classList.remove('border-memory-light', 'bg-memory-light');
+                btn.classList.add('border-gray-600', 'bg-gray-700');
+            });
+            
+            event.target.classList.remove('border-gray-600', 'bg-gray-700');
+            event.target.classList.add('border-memory-light', 'bg-memory-light');
+            
+            // Show/hide payment sections
+            document.querySelectorAll('.payment-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            document.getElementById(method + 'Payment').classList.remove('hidden');
+        }
+
+        // Copy wallet address
+        function copyAddress() {
+            const address = '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa';
+            navigator.clipboard.writeText(address).then(() => {
+                event.target.textContent = 'Copied!';
+                setTimeout(() => {
+                    event.target.textContent = 'Copy Address';
+                }, 2000);
+            });
+        }
+
+        // Process transaction
+        function processTransaction() {
+            if (!selectedPaymentMethod) {
+                alert('Please select a payment method.');
+                return;
+            }
+            
+            // Simulate transaction processing
+            event.target.textContent = 'Processing...';
+            event.target.disabled = true;
+            
+            setTimeout(() => {
+                showSuccessModal(`Thank you for your donation of $${donationData.amount}! Your contribution will help climate victims and their communities.`);
+                event.target.textContent = 'Complete Transaction';
+                event.target.disabled = false;
+            }, 3000);
+        }
+
+        // Success modal
+        function showSuccessModal(message) {
+            document.getElementById('successMessage').textContent = message;
+            document.getElementById('successModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            if (currentPage === 'transaction') {
+                showPage('home');
+            }
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home');
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuButton = e.target.closest('button');
+            
+            if (!mobileMenu.contains(e.target) && !menuButton) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96c54162c56ee581',t:'MTc1NDcyMTU1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
